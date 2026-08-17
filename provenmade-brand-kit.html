@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provenmade — brand kit v1</title>
+<style>
+  :root{
+    --bg:#FAF6F0; --ink:#2B2622; --muted:#6b6357; --line:#E4DDCF; --card:#FFFFFF;
+    --clay:#C1673B; --clay-dark:#8f4423; --clay-bg:#F5E6DC;
+    --verified:#2F6B4F; --verified-bg:#E3F0EA; --verified-dark:#1f4d38;
+    --amber:#B98A2E; --amber-bg:#FBF1DE; --amber-dark:#6b4f16;
+    --red:#B3413A; --red-bg:#F7E4E1; --red-dark:#7a2b26;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  .serif{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:36px 24px 70px;}
+
+  header{margin-bottom:44px;}
+  .kicker{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--clay-dark);font-weight:600;margin-bottom:8px;}
+  header h1{font-size:34px;margin:0 0 8px;}
+  header p{font-size:15px;color:var(--muted);max-width:560px;line-height:1.6;margin:0;}
+
+  section{margin-bottom:52px;}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:22px;}
+  .sec-head h2{font-size:20px;margin:0;}
+  .sec-head span{font-size:12px;color:var(--muted);}
+
+  /* ---- color swatches ---- */
+  .swatch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .swatch{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);}
+  .swatch-fill{height:88px;}
+  .swatch-body{padding:14px 16px;}
+  .swatch-name{font-size:14px;font-weight:600;margin:0 0 2px;}
+  .swatch-hex{font-family:'Courier New',monospace;font-size:12px;color:var(--muted);margin:0 0 10px;}
+  .swatch-why{font-size:12.5px;line-height:1.55;color:var(--muted);margin:0 0 8px;}
+  .swatch-tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:3px 8px;border-radius:20px;}
+
+  .neutral-fill{background:linear-gradient(90deg,#FAF6F0 50%,#2B2622 50%);}
+  .clay-fill{background:var(--clay);}
+  .verified-fill{background:var(--verified);}
+  .amber-fill{background:var(--amber);}
+  .red-fill{background:var(--red);}
+
+  .tag-brand{background:var(--clay-bg);color:var(--clay-dark);}
+  .tag-trust{background:var(--verified-bg);color:var(--verified-dark);}
+  .tag-pending{background:var(--amber-bg);color:var(--amber-dark);}
+  .tag-error{background:var(--red-bg);color:var(--red-dark);}
+  .tag-neutral{background:#EDE7DA;color:var(--ink);}
+
+  .rule-box{margin-top:18px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:13px;line-height:1.6;color:var(--muted);}
+  .rule-box b{color:var(--ink);}
+
+  /* ---- typography ---- */
+  .type-row{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding:16px 0;}
+  .type-row:last-child{border-bottom:none;}
+  .type-label{width:110px;flex-shrink:0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .type-sample{flex:1;}
+  .t-h1{font-size:32px;}
+  .t-h2{font-size:22px;}
+  .t-body{font-size:16px;line-height:1.6;max-width:480px;color:var(--ink);}
+  .t-mono{font-family:'Courier New',monospace;font-size:14px;letter-spacing:.02em;}
+  .type-note{font-size:12px;color:var(--muted);margin-top:16px;}
+
+  /* ---- wordmark ---- */
+  .wordmark-card{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:40px;text-align:center;}
+  .wordmark{font-size:44px;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:12px;}
+  .wordmark .seal{width:34px;height:34px;border-radius:50%;background:var(--verified);color:#fff;font-size:16px;display:inline-flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif;}
+  .wordmark-sub{margin-top:10px;font-size:12.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+
+  /* ---- voice ---- */
+  .voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .voice-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--card);}
+  .voice-card h3{font-size:14px;margin:0 0 8px;}
+  .voice-ex{font-size:12.5px;line-height:1.6;margin:6px 0;padding:8px 10px;border-radius:8px;}
+  .ex-do{background:var(--verified-bg);color:var(--verified-dark);}
+  .ex-dont{background:var(--red-bg);color:var(--red-dark);}
+
+  /* ---- components ---- */
+  .comp-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:13px;padding:10px 18px;border-radius:8px;cursor:default;border:1px solid transparent;}
+  .btn-primary{background:var(--clay);color:#fff;}
+  .btn-outline{background:transparent;border-color:var(--ink);color:var(--ink);}
+  .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--verified);background:var(--verified-bg);border-radius:10px;padding:8px 12px;}
+  .badge .ring{width:26px;height:26px;border-radius:50%;background:var(--verified);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .badge span{font-size:12.5px;color:var(--verified-dark);font-weight:600;}
+  .pend{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--amber);background:var(--amber-bg);border-radius:10px;padding:8px 12px;font-size:12.5px;color:var(--amber-dark);font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:20px;font-size:12.5px;color:var(--muted);line-height:1.6;}
+
+  @media (max-width:640px){
+    .swatch-grid,.voice-grid{grid-template-columns:1fr;}
+    .type-row{flex-direction:column;gap:4px;}
+    .type-label{width:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Brand kit · v1 · draft foundation</div>
+    <h1 class="serif">Provenmade</h1>
+    <p>Every listing, verifiably made by hand. This is the starting brand system — palette and type are research-backed defaults to build from until final imagery, fonts, and colors are supplied.</p>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>Color system</h2><span>5 colors, each doing one job</span></div>
+    <div class="swatch-grid">
+
+      <div class="swatch">
+        <div class="swatch-fill neutral-fill"></div>
+        <div class="swatch-body">
+          <span class="swatch-tag tag-neutral">Neutral</span>
+          <p class="swatch-name">Warm ivory / charcoal ink</p>
+          <p class="swatch-hex">#FAF6F0 · #2B2622</p>
+          <p class="swatch-why">A warm, paper-like neutral instead of stark white — signals "materials and craft," not generic e-commerce. Charcoal instead of pure black keeps body text easier on the eyes at length.</p>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-fill clay-fill"></div>
+        <div class="swatch-body">
+          <span class="swatch-tag tag-brand">Brand / action</span>
+          <p class="swatch-name">Clay</p>
+          <p class="swatch-hex">#C1673B</p>
+          <p class="swatch-why">Warm, high-contrast CTA colors (orange/red family) consistently outperform cool ones in conversion testing — one 2026 study found orange buttons beating blue by 3.1 points. Clay keeps that warm-CTA advantage while reading as "handmade," not "discount site."</p>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-fill verified-fill"></div>
+        <div class="swatch-body">
+          <span class="swatch-tag tag-trust">Trust / verification</span>
+          <p class="swatch-name">Verified green</p>
+          <p class="swatch-hex">#2F6B4F</p>
+          <p class="swatch-why">Green checkmarks measurably move trust — one study found a simple green check raised perceived trustworthiness by 37% versus an identical listing without one. Reserved <b>only</b> for the Proof Score and verification states, so it never loses meaning.</p>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-fill amber-fill"></div>
+        <div class="swatch-body">
+          <span class="swatch-tag tag-pending">Pending</span>
+          <p class="swatch-name">Amber</p>
+          <p class="swatch-hex">#B98A2E</p>
+          <p class="swatch-why">For a seller still building their Proof Score. Deliberately not red — an incomplete score should read as "in progress," not "failed" or punished.</p>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-fill red-fill"></div>
+        <div class="swatch-body">
+          <span class="swatch-tag tag-error">System error only</span>
+          <p class="swatch-name">Reserved red</p>
+          <p class="swatch-hex">#B3413A</p>
+          <p class="swatch-why">Held back for genuine failures — a declined payment, a broken upload. Never used for an unverified or low-score listing, so red keeps its urgency instead of becoming background noise.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rule-box">
+      <b>Why no blue, even though research says blue wins at checkout:</b> the standard advice is a blue accent for payment trust. Provenmade skips it on purpose — green is already the brand's one trust signal, tied directly to the Proof Score. Carrying that same green through checkout reinforces "this is the verified marketplace" instead of borrowing the generic bank-blue every other checkout uses. Contrast still needs to hit at least 7:1 for text against its background at every step — that consistently matters more to legibility than which hue is chosen.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Typography</h2><span>placeholder pairing — swap when fonts arrive</span></div>
+    <div class="type-row">
+      <div class="type-label">Headline</div>
+      <div class="type-sample serif t-h1">Every listing, verifiably made.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Subhead</div>
+      <div class="type-sample serif t-h2">Hand-forged copper cuff</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Body</div>
+      <div class="type-sample t-body">Provenmade proves it with cryptographically signed process footage, captured while you make it — not a checkbox you can fake.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-label">Data / proof</div>
+      <div class="type-sample t-mono">PVM-7F2C-991A · Aug 12, 9:04 AM</div>
+    </div>
+    <p class="type-note">Warm serif for anything editorial (headlines, product titles, seller stories); clean sans for functional UI; tabular/monospace for anything that needs to look auditable — scores, timestamps, manifest IDs.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Wordmark</h2><span>typographic, until a final mark is supplied</span></div>
+    <div class="wordmark-card">
+      <div class="wordmark serif">provenmade<span class="seal">✓</span></div>
+      <div class="wordmark-sub">lowercase · warm serif · verification mark doubles as the period</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Voice & tone</h2><span>4 working principles</span></div>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <h3>Credible, not salesy</h3>
+        <p class="voice-ex ex-do">"Verified process — 5/5 checkpoints, cryptographically signed."</p>
+        <p class="voice-ex ex-dont">"100% guaranteed authentic, no fakes ever!!"</p>
+      </div>
+      <div class="voice-card">
+        <h3>Plain, not technical</h3>
+        <p class="voice-ex ex-do">"This verifies the process was captured in order, over real time."</p>
+        <p class="voice-ex ex-dont">"C2PA-compliant manifest with device-bound cryptographic attestation."</p>
+      </div>
+      <div class="voice-card">
+        <h3>Warm toward makers</h3>
+        <p class="voice-ex ex-do">"Still building your Proof Score — capture 2 more checkpoints."</p>
+        <p class="voice-ex ex-dont">"Verification incomplete. Listing flagged."</p>
+      </div>
+      <div class="voice-card">
+        <h3>Honest about limits</h3>
+        <p class="voice-ex ex-do">"This verifies process, not artistic quality or material claims."</p>
+        <p class="voice-ex ex-dont">"Every detail of this item is guaranteed."</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Components in the system</h2><span>reused from the wireframe</span></div>
+    <div class="comp-row">
+      <button class="btn btn-primary">Add to cart</button>
+      <button class="btn btn-outline">Buy now</button>
+      <div class="badge"><div class="ring">5/5</div><span>Verified process</span></div>
+      <div class="pend">3/5 · in progress</div>
+    </div>
+  </section>
+
+  <footer>
+    Draft v1 — built from color-psychology and trust-badge research, applied to Provenmade's specific mechanism rather than generic rules. Once real images, fonts, and a final palette are supplied, this kit gets a reconciliation pass so everything downstream (site, story, slogan) inherits one consistent system.
+  </footer>
+
+</div>
+</body>
+</html>
