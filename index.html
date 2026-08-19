@@ -550,7 +550,7 @@
       checkpoints:[['Wedging the clay','Jul 18, 8:30 AM'],['Throwing on the wheel','Jul 18, 9:20 AM'],['Trimming &amp; drainage hole','Jul 20, 12:00 PM'],['Ash-speckle prep','Jul 23, 10:00 AM'],['Wood-fired &amp; finished','Jul 28, 5:00 PM']]}
   ];
 
-  function img(id, w){ return 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id.split('/')[0] + '.jpeg?auto=compress&cs=tinysrgb&w=' + (w||600); }
+  function img(id, w){ var n = id.split('/')[0]; return 'https://images.pexels.com/photos/' + n + '/pexels-photo-' + n + '.jpeg?auto=compress&cs=tinysrgb&w=' + (w||600); }
   function money(n){ return '$' + n.toFixed(0); }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function productById(id){ return PRODUCTS.filter(function(p){return p.id===id;})[0]; }
