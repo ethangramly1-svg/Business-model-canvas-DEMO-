@@ -23,16 +23,19 @@
   .tab{border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:13px;padding:9px 14px;border-radius:20px;cursor:pointer;font-family:inherit;}
   .tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
-  .frame{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(43,38,34,.06);}
-  .frame-bar{display:flex;align-items:center;gap:6px;padding:11px 16px;border-bottom:1px solid var(--line);background:#F2EBDE;}
+  .frame{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(43,38,34,.06);display:flex;flex-direction:column;max-height:min(78vh,780px);}
+  .frame-bar{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:11px 16px;border-bottom:1px solid var(--line);background:#F2EBDE;}
   .dot{width:9px;height:9px;border-radius:50%;background:#D9CFBB;}
   .frame-url{margin-left:10px;font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:6px;padding:3px 10px;}
   .cart-pill{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:inherit;}
   .cart-pill svg{width:15px;height:15px;}
   .cart-count{background:var(--clay);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 4px;}
 
+  /* screens scroll independently inside the fixed-height frame, so any
+     position:sticky element inside a screen (e.g. #home .top) stays put
+     while that screen's own content scrolls underneath it */
   .screen{display:none;}
-  .screen.active{display:block;}
+  .screen.active{display:block;flex:1;min-height:0;overflow-y:auto;}
 
   /* ---------- shared components ---------- */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:opacity .15s;}
@@ -49,10 +52,17 @@
   .ceramic{background:linear-gradient(135deg,#E3F0EA,#C9E0D3);}
 
   /* ---------- HOME ---------- */
-  #home .top{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--line);}
+  #home .top{position:sticky;top:0;z-index:8;background:var(--card);display:flex;align-items:center;gap:18px;padding:14px 28px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  #home .logo-wrap{display:flex;flex-direction:column;line-height:1.15;}
   #home .logo{font-size:19px;font-weight:600;color:var(--clay-dark);}
-  #home nav{display:flex;gap:22px;font-size:13px;color:var(--muted);}
-  #home .top-actions{display:flex;gap:10px;}
+  #home .tagline{font-size:10.5px;color:var(--muted);letter-spacing:.01em;}
+  #home nav{display:flex;gap:18px;font-size:13px;color:var(--muted);}
+  #home nav .nav-link{background:none;border:none;font:inherit;color:var(--muted);cursor:pointer;padding:0;}
+  #home nav .nav-link:hover{color:var(--ink);text-decoration:underline;}
+  .top-search{flex:1;min-width:140px;max-width:280px;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:20px;padding:7px 14px;background:var(--bg);}
+  .top-search svg{width:14px;height:14px;color:var(--muted);flex-shrink:0;}
+  .top-search input{border:none;background:none;outline:none;font:inherit;font-size:12.5px;color:var(--ink);width:100%;}
+  #home .top-actions{display:flex;gap:10px;margin-left:auto;}
   #home .top-actions .btn{padding:8px 14px;}
 
   .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;padding:40px 28px;align-items:center;}
@@ -60,8 +70,8 @@
   .hero p{color:var(--muted);font-size:15px;line-height:1.6;margin:0 0 22px;max-width:420px;}
   .hero-actions{display:flex;gap:10px;}
   .hero-card{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);}
-  .hero-img{height:230px;display:flex;align-items:center;justify-content:center;}
-  .hero-img svg{width:110px;height:110px;}
+  .hero-img{height:230px;overflow:hidden;}
+  .hero-img img{width:100%;height:100%;object-fit:cover;display:block;}
   .hero-badge{position:absolute;top:14px;right:14px;background:#fff;border-radius:10px;padding:8px 10px;box-shadow:0 2px 8px rgba(43,38,34,.12);display:flex;align-items:center;gap:8px;}
   .score-ring{width:34px;height:34px;border-radius:50%;background:var(--verified);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
   .hero-badge .t{font-size:11px;line-height:1.3;}
@@ -78,19 +88,27 @@
 
   .sec-title{padding:0 28px;margin:0 0 14px;font-size:15px;}
 
-  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 28px 30px;}
-  .cat{border-radius:12px;overflow:hidden;border:1px solid var(--line);}
-  .cat-img{height:80px;display:flex;align-items:center;justify-content:center;}
-  .cat-img svg{width:40px;height:40px;}
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 28px 18px;}
+  .cat{border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:none;font-family:inherit;text-align:left;padding:0;transition:border-color .15s;}
+  .cat:hover{border-color:var(--clay);}
+  .cat.active{border-color:var(--clay);box-shadow:0 0 0 2px var(--clay-bg);}
+  .cat-img{height:80px;overflow:hidden;}
+  .cat-img img{width:100%;height:100%;object-fit:cover;display:block;}
   .cat-body{padding:10px 12px;display:flex;justify-content:space-between;align-items:center;}
   .cat-body b{font-size:13px;}
   .cat-body span{font-size:11px;color:var(--verified-dark);font-weight:600;}
+  .cats-reset{padding:0 28px 16px;}
+  .cats-reset button{background:none;border:none;font:inherit;font-size:12px;color:var(--clay-dark);text-decoration:underline;cursor:pointer;padding:0;display:none;}
+  .cats-reset button.show{display:inline;}
 
   .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 28px 34px;}
   .pcard{border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:box-shadow .15s;}
   .pcard:hover{box-shadow:0 4px 14px rgba(43,38,34,.08);}
-  .pcard-img{height:130px;display:flex;align-items:center;justify-content:center;}
-  .pcard-img svg{width:58px;height:58px;}
+  .pcard.hide{display:none;}
+  .pcard-img{height:130px;overflow:hidden;}
+  .pcard-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .no-results{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px;padding:24px 0;display:none;}
+  .no-results.show{display:block;}
   .pcard-b{padding:10px 12px;}
   .pcard-b b{font-size:12.5px;display:block;}
   .pcard-b span{font-size:11.5px;color:var(--muted);}
@@ -100,12 +118,13 @@
 
   /* ---------- LISTING ---------- */
   .crumb{padding:14px 28px 0;font-size:12px;color:var(--muted);}
+  .crumb button{background:none;border:none;font:inherit;font-size:12px;color:var(--clay-dark);cursor:pointer;padding:0;text-decoration:underline;}
   .listing{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;padding:16px 28px 30px;}
-  .main-img{height:280px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
-  .main-img svg{width:140px;height:140px;}
+  .main-img{height:280px;border-radius:12px;overflow:hidden;}
+  .main-img img{width:100%;height:100%;object-fit:cover;display:block;}
   .filmstrip{display:flex;gap:8px;margin-top:10px;}
-  .fs-item{flex:1;height:56px;border-radius:8px;border:2px solid transparent;position:relative;display:flex;align-items:center;justify-content:center;}
-  .fs-item svg{width:26px;height:26px;}
+  .fs-item{flex:1;height:56px;border-radius:8px;border:2px solid transparent;overflow:hidden;position:relative;}
+  .fs-item img{width:100%;height:100%;object-fit:cover;display:block;}
   .fs-item.active{border-color:var(--verified);}
 
   .l-title{font-size:22px;margin:0 0 4px;}
@@ -210,7 +229,7 @@
 
   <div class="intro">
     <h1 class="serif">Provenmade — store demo</h1>
-    <p>Click a tab to explore. Add to cart and Checkout are fully functional — this is a working demo, not a live store or real checkout.</p>
+    <p>Click a tab to explore. Search, category filters, add to cart, and checkout are all functional — this is a working demo, not a live store or real checkout.</p>
   </div>
 
   <div class="tabs">
@@ -233,20 +252,31 @@
     <!-- HOME -->
     <div id="home" class="screen active">
       <div class="top">
-        <div class="logo serif">Provenmade</div>
-        <nav><span>Discover</span><span>Sell on Provenmade</span><span>How verification works</span></nav>
-        <div class="top-actions"><button class="btn btn-ghost">Sign in</button><button class="btn btn-primary">Start selling</button></div>
+        <div class="logo-wrap">
+          <div class="logo serif">Provenmade</div>
+          <div class="tagline">Every listing, verifiably made.</div>
+        </div>
+        <div class="top-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="siteSearch" placeholder="Search handmade goods…" autocomplete="off">
+        </div>
+        <nav>
+          <button class="nav-link" data-action="discover">Discover</button>
+          <button class="nav-link" data-action="sell">Sell on Provenmade</button>
+          <button class="nav-link" data-action="verify">How verification works</button>
+        </nav>
+        <div class="top-actions"><button class="btn btn-ghost">Sign in</button><button class="btn btn-primary" data-action="sell">Start selling</button></div>
       </div>
 
       <div class="hero">
         <div>
           <h2 class="serif">Every listing, verifiably made by hand.</h2>
           <p>Provenmade proves it with cryptographically signed process footage, captured while you make it — not a checkbox you can fake.</p>
-          <div class="hero-actions"><button class="btn btn-primary">Browse verified makers</button><button class="btn btn-outline">Become a seller</button></div>
+          <div class="hero-actions"><button class="btn btn-primary" data-action="discover">Browse verified makers</button><button class="btn btn-outline" data-action="sell">Become a seller</button></div>
         </div>
         <div class="hero-card">
-          <div class="hero-img jewelry">
-            <svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#8f4423" stroke-width="9" stroke-linecap="round"/></svg>
+          <div class="hero-img">
+            <img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hand-forged copper cuff bracelet, product photo">
           </div>
           <div class="hero-badge"><div class="score-ring">5/5</div><div class="t">Proof score<b>Cryptographically signed</b></div></div>
           <div class="hero-cap"><b>Hand-forged copper cuff</b><span>by Elena Marsh — $210</span></div>
@@ -259,26 +289,27 @@
         <div class="step"><div class="step-n">3</div><h4>Proof score</h4><p>Buyers see a portable, per-listing score — not a seller-level badge.</p></div>
       </div>
 
-      <div class="cats">
-        <div class="cat">
-          <div class="cat-img jewelry"><svg viewBox="0 0 100 100" fill="none"><circle cx="38" cy="55" r="16" stroke="#8f4423" stroke-width="6"/><circle cx="58" cy="50" r="16" stroke="#C1673B" stroke-width="6"/></svg></div>
+      <div class="cats" id="catFilters">
+        <button class="cat" data-category="jewelry">
+          <div class="cat-img"><img src="https://images.pexels.com/photos/1378705/pexels-photo-1378705.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Jewelry category"></div>
           <div class="cat-body"><b>Jewelry</b><span>94% verified</span></div>
-        </div>
-        <div class="cat">
-          <div class="cat-img wood"><svg viewBox="0 0 100 100" fill="none"><path d="M16 42c0 20 15 34 34 34s34-14 34-34" stroke="#6b4226" stroke-width="5" fill="#EFE1C8"/><ellipse cx="50" cy="42" rx="34" ry="9" stroke="#6b4226" stroke-width="5" fill="#F5EAD6"/></svg></div>
+        </button>
+        <button class="cat" data-category="wood">
+          <div class="cat-img"><img src="https://images.pexels.com/photos/6944927/pexels-photo-6944927.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Woodworking category"></div>
           <div class="cat-body"><b>Woodworking</b><span>89% verified</span></div>
-        </div>
-        <div class="cat">
-          <div class="cat-img ceramic"><svg viewBox="0 0 100 100" fill="none"><rect x="26" y="28" width="36" height="44" rx="7" stroke="#2F6B4F" stroke-width="5" fill="#E3F0EA"/><path d="M62 39c13 0 13 22 0 22" stroke="#2F6B4F" stroke-width="5" fill="none"/></svg></div>
+        </button>
+        <button class="cat" data-category="ceramic">
+          <div class="cat-img"><img src="https://images.pexels.com/photos/29520386/pexels-photo-29520386/free-photo-of-organized-display-of-colorful-ceramic-plant-pots.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Ceramics category"></div>
           <div class="cat-body"><b>Ceramics</b><span>91% verified</span></div>
-        </div>
+        </button>
       </div>
+      <div class="cats-reset"><button id="resetFilter" type="button">Show all categories</button></div>
 
       <h3 class="sec-title serif">Fresh from verified makers</h3>
-      <div class="grid6">
+      <div class="grid6" id="productGrid">
 
-        <div class="pcard">
-          <div class="pcard-img jewelry"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#8f4423" stroke-width="9" stroke-linecap="round"/></svg></div>
+        <div class="pcard" data-category="jewelry">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Hand-forged copper cuff, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Hand-forged copper cuff</b><span>by Elena Marsh</span>
             <div class="pcard-foot"><span class="price">$210</span><span class="chip">5/5 verified</span></div>
@@ -286,8 +317,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img jewelry"><svg viewBox="0 0 100 100" fill="none"><circle cx="35" cy="55" r="18" stroke="#C1673B" stroke-width="6"/><circle cx="50" cy="48" r="18" stroke="#8f4423" stroke-width="6"/><circle cx="65" cy="55" r="18" stroke="#C1673B" stroke-width="6"/></svg></div>
+        <div class="pcard" data-category="jewelry">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/1378705/pexels-photo-1378705.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Silver stacking rings, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Silver stacking rings</b><span>by Elena Marsh</span>
             <div class="pcard-foot"><span class="price">$132</span><span class="chip">5/5 verified</span></div>
@@ -295,8 +326,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img jewelry"><svg viewBox="0 0 100 100" fill="none"><circle cx="35" cy="55" r="20" stroke="#8f4423" stroke-width="7"/><circle cx="65" cy="55" r="20" stroke="#8f4423" stroke-width="7"/><circle cx="35" cy="33" r="3" fill="#8f4423"/><circle cx="65" cy="33" r="3" fill="#8f4423"/></svg></div>
+        <div class="pcard" data-category="jewelry">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/15785491/pexels-photo-15785491/free-photo-of-two-golden-hoops.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Hammered brass hoop earrings, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Hammered brass hoops</b><span>by Nadia Okafor</span>
             <div class="pcard-foot"><span class="price">$86</span><span class="chip">4/5 verified</span></div>
@@ -304,8 +335,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img wood"><svg viewBox="0 0 100 100" fill="none"><rect x="14" y="28" width="72" height="46" rx="18" stroke="#6b4226" stroke-width="5" fill="#EFE1C8"/><circle cx="70" cy="51" r="5" stroke="#6b4226" stroke-width="4" fill="none"/><path d="M24 44h34M24 54h30M24 64h20" stroke="#6b4226" stroke-width="2" opacity=".5"/></svg></div>
+        <div class="pcard" data-category="wood">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/5964663/pexels-photo-5964663.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Walnut serving board, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Walnut serving board</b><span>by Marcus Reyes</span>
             <div class="pcard-foot"><span class="price">$88</span><span class="chip">5/5 verified</span></div>
@@ -313,8 +344,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img wood"><svg viewBox="0 0 100 100" fill="none"><path d="M10 44c8-6 14 4 22-2s10 6 18 0 12 4 20-2 10 5 20 0v24H10z" fill="#D9C6A9" stroke="#6b4226" stroke-width="4" stroke-linejoin="round"/><path d="M26 66v14M74 66v14" stroke="#6b4226" stroke-width="5" stroke-linecap="round"/></svg></div>
+        <div class="pcard" data-category="wood">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/14176327/pexels-photo-14176327.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Live-edge oak shelf, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Live-edge oak shelf</b><span>by Marcus Reyes</span>
             <div class="pcard-foot"><span class="price">$145</span><span class="chip">4/5 verified</span></div>
@@ -322,8 +353,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img wood"><svg viewBox="0 0 100 100" fill="none"><path d="M16 42c0 20 15 34 34 34s34-14 34-34" stroke="#6b4226" stroke-width="5" fill="#EFE1C8"/><ellipse cx="50" cy="42" rx="34" ry="9" stroke="#6b4226" stroke-width="5" fill="#F5EAD6"/></svg></div>
+        <div class="pcard" data-category="wood">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/6944927/pexels-photo-6944927.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Hand-turned maple bowl, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Hand-turned maple bowl</b><span>by Tomás Vidal</span>
             <div class="pcard-foot"><span class="price">$76</span><span class="chip">5/5 verified</span></div>
@@ -331,8 +362,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img ceramic"><svg viewBox="0 0 100 100" fill="none"><rect x="26" y="28" width="36" height="44" rx="7" stroke="#2F6B4F" stroke-width="5" fill="#E3F0EA"/><path d="M62 39c13 0 13 22 0 22" stroke="#2F6B4F" stroke-width="5" fill="none"/></svg></div>
+        <div class="pcard" data-category="ceramic">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/6312177/pexels-photo-6312177.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Stoneware mug set, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Stoneware mug set</b><span>by Priya Nair</span>
             <div class="pcard-foot"><span class="price">$54</span><span class="chip">4/5 verified</span></div>
@@ -340,8 +371,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img ceramic"><svg viewBox="0 0 100 100" fill="none"><path d="M42 22h16l5 15c8 8 8 15 4 23-3 6-3 10 0 16H33c3-6 3-10 0-16-4-8-4-15 4-23z" stroke="#1f4d38" stroke-width="4" fill="#E3F0EA"/></svg></div>
+        <div class="pcard" data-category="ceramic">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/33126633/pexels-photo-33126633/free-photo-of-minimalist-ceramic-vases-on-wooden-tray.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Wheel-thrown vase, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Wheel-thrown vase</b><span>by Priya Nair</span>
             <div class="pcard-foot"><span class="price">$68</span><span class="chip">5/5 verified</span></div>
@@ -349,8 +380,8 @@
           </div>
         </div>
 
-        <div class="pcard">
-          <div class="pcard-img ceramic"><svg viewBox="0 0 100 100" fill="none"><path d="M26 48h48l-7 28H33z" stroke="#6b4f16" stroke-width="5" fill="#FBF1DE"/><path d="M50 48V24M50 28c-11-7-18 2-11 11M50 26c11-4 18 7 9 13" stroke="#2F6B4F" stroke-width="4" stroke-linecap="round" fill="none"/></svg></div>
+        <div class="pcard" data-category="ceramic">
+          <div class="pcard-img"><img src="https://images.pexels.com/photos/29520386/pexels-photo-29520386/free-photo-of-organized-display-of-colorful-ceramic-plant-pots.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Speckled ceramic planter, product photo" loading="lazy"></div>
           <div class="pcard-b">
             <b>Speckled ceramic planter</b><span>by Junko Ito</span>
             <div class="pcard-foot"><span class="price">$42</span><span class="chip">3/5 verified</span></div>
@@ -358,21 +389,23 @@
           </div>
         </div>
 
+        <p class="no-results" id="noResults">No products match your search or filter.</p>
+
       </div>
     </div>
 
     <!-- LISTING -->
     <div id="listing" class="screen">
-      <div class="crumb">Home / Jewelry / Hand-forged copper cuff</div>
+      <div class="crumb"><button type="button" data-crumb-home>Home</button> / <button type="button" data-crumb-cat="jewelry">Jewelry</button> / Hand-forged copper cuff</div>
       <div class="listing">
         <div>
-          <div class="main-img jewelry"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#8f4423" stroke-width="9" stroke-linecap="round"/></svg></div>
+          <div class="main-img"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hand-forged copper cuff, main product photo"></div>
           <div class="filmstrip">
-            <div class="fs-item jewelry"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#8f4423" stroke-width="9" stroke-linecap="round"/></svg></div>
-            <div class="fs-item jewelry"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#C1673B" stroke-width="9" stroke-linecap="round"/></svg></div>
-            <div class="fs-item jewelry active"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#8f4423" stroke-width="9" stroke-linecap="round"/></svg></div>
-            <div class="fs-item jewelry"><svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="30" stroke="#8f4423" stroke-width="6" fill="none"/></svg></div>
-            <div class="fs-item jewelry"><svg viewBox="0 0 100 100" fill="none"><path d="M20 55a30 30 0 1 1 60 0" stroke="#2F6B4F" stroke-width="9" stroke-linecap="round"/></svg></div>
+            <div class="fs-item"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Cuff detail view 1"></div>
+            <div class="fs-item"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Cuff detail view 2"></div>
+            <div class="fs-item active"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Cuff detail view 3"></div>
+            <div class="fs-item"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Cuff detail view 4"></div>
+            <div class="fs-item"><img src="https://images.pexels.com/photos/35921025/pexels-photo-35921025/free-photo-of-elegant-gold-bracelets-on-white-fabric-background.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Cuff detail view 5"></div>
           </div>
         </div>
         <div>
@@ -479,14 +512,64 @@
 
 <script>
   // ---- tab switching ----
+  function goToScreen(name){
+    document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('active', s.id === name); });
+  }
   document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){ goToScreen(btn.dataset.screen); });
+  });
+
+  // ---- top nav (functional, not decorative) ----
+  document.querySelectorAll('[data-action]').forEach(function(btn){
     btn.addEventListener('click', function(){
-      document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
-      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.screen).classList.add('active');
+      var action = btn.dataset.action;
+      if (action === 'sell') goToScreen('capture');
+      else if (action === 'verify') goToScreen('cert');
+      else if (action === 'discover') { resetFilters(); goToScreen('home'); }
     });
   });
+
+  // ---- breadcrumb on listing page ----
+  var crumbHome = document.querySelector('[data-crumb-home]');
+  if (crumbHome) crumbHome.addEventListener('click', function(){ resetFilters(); goToScreen('home'); });
+  var crumbCat = document.querySelector('[data-crumb-cat]');
+  if (crumbCat) crumbCat.addEventListener('click', function(){ applyCategoryFilter(crumbCat.dataset.crumbCat); goToScreen('home'); });
+
+  // ---- category filter + live search on the homepage product grid ----
+  var activeCategory = 'all';
+  function applyCategoryFilter(cat){
+    activeCategory = cat;
+    document.querySelectorAll('#catFilters .cat').forEach(function(c){
+      c.classList.toggle('active', c.dataset.category === cat);
+    });
+    document.getElementById('resetFilter').classList.toggle('show', cat !== 'all');
+    runProductFilter();
+  }
+  function resetFilters(){
+    document.getElementById('siteSearch').value = '';
+    applyCategoryFilter('all');
+  }
+  function runProductFilter(){
+    var q = document.getElementById('siteSearch').value.trim().toLowerCase();
+    var anyVisible = false;
+    document.querySelectorAll('#productGrid .pcard').forEach(function(card){
+      var matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
+      var name = (card.querySelector('.pcard-b b').textContent + ' ' + card.querySelector('.pcard-b span').textContent).toLowerCase();
+      var matchesSearch = q === '' || name.indexOf(q) !== -1;
+      var visible = matchesCategory && matchesSearch;
+      card.classList.toggle('hide', !visible);
+      if (visible) anyVisible = true;
+    });
+    document.getElementById('noResults').classList.toggle('show', !anyVisible);
+  }
+  document.querySelectorAll('#catFilters .cat').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      applyCategoryFilter(activeCategory === btn.dataset.category ? 'all' : btn.dataset.category);
+    });
+  });
+  document.getElementById('resetFilter').addEventListener('click', resetFilters);
+  document.getElementById('siteSearch').addEventListener('input', runProductFilter);
 
   // ---- cart state (in-memory only, resets on page reload) ----
   var cart = [];

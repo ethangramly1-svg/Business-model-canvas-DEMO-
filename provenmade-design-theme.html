@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provenmade — design theme</title>
+<style>
+  :root{
+    --bg:#FAF6F0; --ink:#2B2622; --muted:#6b6357; --line:#E4DDCF; --card:#FFFFFF;
+    --clay:#C1673B; --clay-dark:#8f4423; --clay-bg:#F5E6DC;
+    --verified:#2F6B4F; --verified-bg:#E3F0EA; --verified-dark:#1f4d38;
+    --amber:#B98A2E; --amber-bg:#FBF1DE;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  .serif{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 24px 70px;}
+  .kicker{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--clay-dark);font-weight:600;margin-bottom:8px;}
+  h1{font-size:32px;margin:0 0 8px;}
+  .lede{color:var(--muted);font-size:15px;max-width:620px;line-height:1.6;margin:0 0 44px;}
+  section{margin-bottom:46px;}
+  .sec-head{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px;}
+  .sec-head h2{font-size:20px;margin:0;}
+  .sec-head span{font-size:12px;color:var(--muted);}
+  p{line-height:1.65;font-size:14px;}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px 18px;margin-bottom:12px;}
+  .card b{display:block;font-size:14px;margin-bottom:4px;}
+  .card p{margin:0;font-size:13px;color:var(--muted);}
+  .cite{font-size:11.5px;color:var(--clay-dark);margin-top:8px;}
+  .cite a{color:var(--clay-dark);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .slogan-card{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff;margin-bottom:10px;position:relative;}
+  .slogan-card.pick{border-color:var(--verified);background:var(--verified-bg);}
+  .slogan-card b.serif{font-size:17px;display:block;margin-bottom:4px;}
+  .slogan-card span{font-size:12.5px;color:var(--muted);}
+  .pick-tag{position:absolute;top:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--verified-dark);}
+  .swatch-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .sw{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+  th{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.03em;}
+  .note{padding:12px 14px;background:var(--amber-bg);border-radius:10px;font-size:12.5px;color:#6b4f16;line-height:1.55;}
+  ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7;color:var(--ink);}
+  footer{border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Design theme · v1 · builds on the brand kit</div>
+  <h1 class="serif">Provenmade — design theme</h1>
+  <p class="lede">How the site should feel and behave, backed by current e-commerce and marketplace research — plus the name, slogan, and imagery decisions that came out of it.</p>
+
+  <section>
+    <div class="sec-head"><h2>Company name</h2></div>
+    <div class="card">
+      <b>Keeping "Provenmade."</b>
+      <p>It does the job a marketplace name needs to do: it's short, it reads instantly as a compound of "proven" + "made," and it directly names the mechanism (proof of making) instead of a vague craft-adjacent word. No reason found to change it.</p>
+      <div class="note">A direct search for provenmade.com turned up no existing site or registration — a good sign, not a guarantee. Worth confirming through an actual registrar (Namecheap, GoDaddy, etc.) before treating it as secured.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Slogan</h2><span>pick one, or mix and match</span></div>
+    <div class="slogan-card pick">
+      <span class="pick-tag">Recommended</span>
+      <b class="serif">Every listing, verifiably made.</b>
+      <span>Already doing double duty as the hero headline — using it as the slogan too keeps one consistent line instead of two competing ones. States the mechanism, not a feeling.</span>
+    </div>
+    <div class="slogan-card">
+      <b class="serif">Proof, not promises.</b>
+      <span>Shorter and punchier; leans into the "Etsy is full of fake handmade claims" contrast without naming a competitor.</span>
+    </div>
+    <div class="slogan-card">
+      <b class="serif">See it made. Trust it's real.</b>
+      <span>Most literal — describes the actual capture flow. Best used near the seller-capture screen rather than as the primary tagline.</span>
+    </div>
+    <div class="slogan-card">
+      <b class="serif">The process is the proof.</b>
+      <span>Most abstract of the four; reads well on a certificate or About page, less well as a first-impression headline.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Navigation principles</h2><span>research-backed</span></div>
+    <div class="card">
+      <b>Sticky header, always reachable</b>
+      <p>A fixed header keeps search, categories, and cart available without scrolling back up — standard on high-converting sites and now applied to the demo's home screen.</p>
+      <div class="cite">Sources: <a href="https://plumrocket.com/blog/ecommerce-navigation-examples">Plumrocket</a>, <a href="https://www.designstudiouiux.com/blog/ecommerce-navigation-best-practices/">Design Studio UI/UX</a></div>
+    </div>
+    <div class="card">
+      <b>Navigate by how people shop, not by internal categories</b>
+      <p>Shoppers think "jewelry," "wood," "ceramics" — not SKU or supplier codes. Category tiles now double as real filters instead of static decoration.</p>
+      <div class="cite">Source: <a href="https://www.shopify.com/blog/ecommerce-ux">Shopify — Ecommerce UX</a></div>
+    </div>
+    <div class="card">
+      <b>69% of shoppers rely on nav or search first</b>
+      <p>A working search box is no longer optional polish — it's the primary way most visitors find a specific item. Added a live search to the demo header.</p>
+      <div class="cite">Source: <a href="https://www.ontapgroup.com/blog/ecommerce-navigation">On Tap Group</a></div>
+    </div>
+    <div class="card">
+      <b>Breadcrumbs on every product page</b>
+      <p>Reduces disorientation once someone is a few clicks deep. Already present on the listing screen; kept as-is.</p>
+    </div>
+    <div class="note">Baymard Institute finds 58–67% of sites have mediocre-to-poor navigation, and fixing it typically lifts conversion 30–60%. Cheap to get right, expensive to skip.</div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Imagery &amp; photography style</h2><span>what the research says, applied</span></div>
+    <p>2026 artisan-marketplace design is trending toward what's being called a "Nature-Distilled" look — earthy palettes, natural materials shown honestly rather than over-styled, and process-led storytelling (showing the making, not just the finished object). That last part lines up exactly with Provenmade's whole mechanism, so it's an easy fit rather than a stretch.</p>
+    <ul>
+      <li>Real photography, not icon-style illustrations — swapped the placeholder line-art for licensed stock photos (Pexels, free for commercial use) across all 9 products.</li>
+      <li>Product-forward shots preferred over lifestyle/model shots — closer to how a real listing photo reads, and avoids implying a stock model is "the seller."</li>
+      <li>Product images are the single highest-leverage conversion lever in the research — worth prioritizing over almost anything else on a listing page once this is a real product.</li>
+    </ul>
+    <div class="cite">Sources: <a href="https://thebespokemarkets.com/2026-handmade-and-artisan-business-trends/">The Bespoke Markets</a>, <a href="https://www.webcitz.com/blog/best-artisan-websites/">WebCitz</a>, <a href="https://vwo.com/blog/ecommerce-product-page-design/">VWO</a></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Color — confirmed, not changed</h2><span>checked against the real photos</span></div>
+    <p>Pulled the dominant tones out of the product photography now in use — coppers, warm woods, unglazed stoneware, sage greens — and they sit comfortably inside the palette from the brand kit. No changes needed; the warm-neutral base with clay and verified-green accents already reads as "materials and craft," which is the goal.</p>
+    <div class="swatch-row">
+      <div class="sw" style="background:#FAF6F0"></div>
+      <div class="sw" style="background:#C1673B"></div>
+      <div class="sw" style="background:#8f4423"></div>
+      <div class="sw" style="background:#2F6B4F"></div>
+      <div class="sw" style="background:#E4DDCF"></div>
+      <div class="sw" style="background:#B98A2E"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>What changed in this pass</h2></div>
+    <table>
+      <tr><th>Area</th><th>Before</th><th>Now</th></tr>
+      <tr><td>Product images</td><td>Custom SVG line-art</td><td>Real stock photography, one per product</td></tr>
+      <tr><td>Navigation</td><td>Static tab bar, decorative categories</td><td>Sticky header, working category filter, working search</td></tr>
+      <tr><td>Slogan</td><td>None</td><td>"Every listing, verifiably made." (3 alternates offered)</td></tr>
+      <tr><td>Name</td><td>Provenmade (working title)</td><td>Provenmade (confirmed)</td></tr>
+      <tr><td>Colors</td><td>Research-backed palette</td><td>Same palette, validated against real photography</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    Photos sourced from Pexels (free license, no attribution required). Domain availability is a search-based signal, not a registrar confirmation — verify before purchasing. Next real decision point: your own images, fonts, and any color changes once you have them.
+  </footer>
+
+</div>
+</body>
+</html>
