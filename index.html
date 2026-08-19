@@ -666,7 +666,7 @@
       '<div class="pcard" data-category="' + p.category + '">' +
         '<div class="pcard-imgwrap">' +
           '<a class="pcard-img" href="#/product/' + p.id + '"><img src="' + img(p.img,500) + '" alt="' + esc(p.alt) + '" loading="lazy"></a>' +
-          '<button class="heart-btn' + (saved?' saved':'') + '" aria-label="Save to wishlist" onclick="PM.toggleWishlist('\'' + p.id + '\'')">' +
+          '<button class="heart-btn' + (saved?' saved':'') + '" aria-label="Save to wishlist" data-wish="' + p.id + '" onclick="PM.toggleWishlistEl(this)">' +
             '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>' +
           '</button>' +
         '</div>' +
@@ -674,7 +674,7 @@
           '<a class="title" href="#/product/' + p.id + '">' + esc(p.name) + '</a>' +
           '<a class="maker" href="#/seller/' + s.id + '">by ' + esc(s.name) + '</a>' +
           '<div class="pcard-foot"><span class="price">' + money(p.price) + '</span><span class="chip">' + p.score + '/5 verified</span></div>' +
-          '<button class="btn btn-outline pcard-add" onclick="PM.addToCart('\'' + p.id + '\'')">Add to cart</button>' +
+          '<button class="btn btn-outline pcard-add" data-add="' + p.id + '" onclick="PM.addToCartEl(this)">Add to cart</button>' +
         '</div>' +
       '</div>';
   }
@@ -745,8 +745,8 @@
         '<div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>' +
           '<input id="shopSearch" type="text" placeholder="Search handmade goods…" value="' + esc(state.shopQuery) + '" oninput="PM.setShopQuery(this.value)"></div>' +
         '<div class="cat-chips">' +
-          '<button class="cat-chip' + (state.shopCategory==='all'?' active':'') + '" onclick="PM.setShopCategory('\'all\'')">All</button>' +
-          CATEGORIES.map(function(c){ return '<button class="cat-chip' + (state.shopCategory===c.id?' active':'') + '" onclick="PM.setShopCategory('\'' + c.id + '\'')">' + c.label + '</button>'; }).join('') +
+          '<button class="cat-chip' + (state.shopCategory==='all'?' active':'') + '" data-cat="all" onclick="PM.setShopCategoryEl(this)">All</button>' +
+          CATEGORIES.map(function(c){ return '<button class="cat-chip' + (state.shopCategory===c.id?' active':'') + '" data-cat="' + c.id + '" onclick="PM.setShopCategoryEl(this)">' + c.label + '</button>'; }).join('') +
         '</div>' +
         '<select class="sort-select" onchange="PM.setShopSort(this.value)">' +
           '<option value="featured"' + (state.shopSort==='featured'?' selected':'') + '>Featured</option>' +
@@ -781,9 +781,9 @@
           '<p class="pd-price">' + money(p.price) + '</p>' +
           '<div class="variant-row"><div class="variant sel">Standard</div><div class="variant">Gift-wrapped (+$8)</div></div>' +
           '<div class="pd-actions">' +
-            '<button class="btn btn-primary btn-block" onclick="PM.addToCart('\'' + p.id + '\'')">Add to cart</button>' +
-            '<button class="btn btn-outline btn-block" onclick="PM.buyNow('\'' + p.id + '\'')">Buy now</button>' +
-            '<button class="heart-btn' + (saved?' saved':'') + '" aria-label="Save to wishlist" onclick="PM.toggleWishlist('\'' + p.id + '\'')"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></button>' +
+            '<button class="btn btn-primary btn-block" data-add="' + p.id + '" onclick="PM.addToCartEl(this)">Add to cart</button>' +
+            '<button class="btn btn-outline btn-block" data-buy="' + p.id + '" onclick="PM.buyNowEl(this)">Buy now</button>' +
+            '<button class="heart-btn' + (saved?' saved':'') + '" aria-label="Save to wishlist" data-wish="' + p.id + '" onclick="PM.toggleWishlistEl(this)"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></button>' +
           '</div>' +
           '<p class="pd-ship">Ships in 3–5 days · Free returns within 14 days</p>' +
           '<p class="pd-desc">' + esc(p.desc) + '</p>' +
@@ -813,7 +813,7 @@
           p.checkpoints.map(function(cp,i){ return '<div class="cp-row"><div class="cp-left"><div class="cp-dot">' + (i+1) + '</div>' + cp[0] + '</div><span>' + cp[1] + '</span></div>'; }).join('') +
           '<div class="cert-note">This verifies that the process shown was captured on-device, in sequence, over real elapsed time. It does not verify artistic quality or claims made about materials — those remain the seller\'s responsibility.</div>' +
         '</div>' +
-        '<div class="cert-foot"><span class="chip">' + p.score + '/5 proof score</span><button class="btn btn-outline" onclick="PM.toast('\'Certificate download is not wired up in this prototype.\'')">Download certificate</button></div>' +
+        '<div class="cert-foot"><span class="chip">' + p.score + '/5 proof score</span><button class="btn btn-outline" onclick="PM.toastCertNote()">Download certificate</button></div>' +
       '</div>' +
     '</section>';
   }
@@ -870,16 +870,16 @@
           '<li>Capture happens on your own schedule — 3 to 6 checkpoints, whenever you actually work</li>' +
           '<li>Buyers see a real certificate, not just a "handmade" checkbox</li>' +
         '</ul>' +
-        '<button class="btn btn-primary btn-lg" onclick="PM.requireAccount(function(){ PM.toast('\'Seller onboarding isn\\\'t wired up yet in this prototype — but you\\\'re signed in!\'') })">Start selling</button>' +
+        '<button class="btn btn-primary btn-lg" onclick="PM.startSelling()">Start selling</button>' +
       '</div>' +
       '<div class="capture-demo">' +
         '<div class="progress-row"><b id="sellStepLabel">Checkpoint 1 of 5</b><div class="dots-row" id="sellDots"></div></div>' +
         '<div class="viewfinder"><div class="vf-grid"></div><div class="vf-flash" id="vfFlash"></div><div class="vf-tag"><span class="rec"></span>Preview — this is what a seller sees</div></div>' +
         '<p class="guidance" id="sellGuidance"></p>' +
         '<div class="capture-actions">' +
-          '<button class="side-link" id="sellRetake" onclick="PM.sellDemo('\'retake\'')">Retake</button>' +
-          '<button class="cap-btn" aria-label="Capture" onclick="PM.sellDemo('\'capture\'')"></button>' +
-          '<button class="side-link" id="sellSkip" onclick="PM.sellDemo('\'skip\'')">Skip checkpoint</button>' +
+          '<button class="side-link" id="sellRetake" data-demo="retake" onclick="PM.sellDemoEl(this)">Retake</button>' +
+          '<button class="cap-btn" aria-label="Capture" data-demo="capture" onclick="PM.sellDemoEl(this)"></button>' +
+          '<button class="side-link" id="sellSkip" data-demo="skip" onclick="PM.sellDemoEl(this)">Skip checkpoint</button>' +
         '</div>' +
         '<div class="thumbs" id="sellThumbs"></div>' +
         '<p class="capture-preview-note">Illustrative only — no camera is accessed in this prototype.</p>' +
@@ -1070,6 +1070,8 @@
     renderCartDrawer(); updateHeaderCounts();
   };
   PM.removeFromCart = function(idx){ state.cart.splice(idx,1); renderCartDrawer(); updateHeaderCounts(); };
+  PM.addToCartEl = function(el){ PM.addToCart(el.dataset.add); };
+  PM.buyNowEl = function(el){ PM.buyNow(el.dataset.buy); };
 
   PM.toggleWishlist = function(id){
     var i = state.wishlist.indexOf(id);
@@ -1079,9 +1081,11 @@
     updateHeaderCounts();
     refreshView(true);
   };
+  PM.toggleWishlistEl = function(el){ PM.toggleWishlist(el.dataset.wish); };
 
   PM.setShopQuery = function(v){ state.shopQuery = v; refreshView(true); };
   PM.setShopCategory = function(cat){ state.shopCategory = (state.shopCategory===cat ? 'all' : cat); refreshView(true); };
+  PM.setShopCategoryEl = function(el){ PM.setShopCategory(el.dataset.cat); };
   PM.setShopSort = function(v){ state.shopSort = v; refreshView(true); };
   PM.resetShop = function(){ state.shopQuery=''; state.shopCategory='all'; state.shopSort='featured'; refreshView(); };
 
@@ -1132,6 +1136,7 @@
     }
     renderSellDemo();
   };
+  PM.sellDemoEl = function(el){ PM.sellDemo(el.dataset.demo); };
 
   PM.openSignin = function(){ document.getElementById('signinOverlay').classList.add('open'); };
   PM.closeSignin = function(){ document.getElementById('signinOverlay').classList.remove('open'); };
@@ -1142,6 +1147,12 @@
     pendingAfterSignin = cb;
     PM.openSignin();
   };
+  PM.startSelling = function(){
+    PM.requireAccount(function(){
+      PM.toast('Seller onboarding isn\'t wired up yet in this prototype — but you\'re signed in!');
+    });
+  };
+  PM.toastCertNote = function(){ PM.toast('Certificate download is not wired up in this prototype.'); };
 
   var pendingAfterSignin = null;
   var toastTimer = null;
