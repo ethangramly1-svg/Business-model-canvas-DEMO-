@@ -1,1 +1,532 @@
-<�s�D
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provenmade — Business Dashboard</title>
+<meta name="description" content="Internal business dashboard for Provenmade — brand kit, business identity, and site &amp; product analytics.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#FAF6F0; --ink:#2B2622; --muted:#6b6357; --line:#E4DDCF; --card:#FFFFFF;
+    --clay:#C1673B; --clay-dark:#8f4423; --clay-bg:#F5E6DC;
+    --verified:#2F6B4F; --verified-bg:#E3F0EA; --verified-dark:#1f4d38;
+    --amber:#B98A2E; --amber-bg:#FBF1DE;
+    --red:#B3413A; --red-bg:#F7E4E1;
+    --shadow-sm:0 2px 8px rgba(43,38,34,.07);
+    --shadow:0 10px 28px rgba(43,38,34,.10);
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  .serif{font-family:Georgia,'Iowan Old Style','Times New Roman',serif;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  header.dash{position:sticky;top:0;z-index:30;background:rgba(250,246,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .dash-bar{display:flex;align-items:center;gap:16px;padding:16px 0;flex-wrap:wrap;}
+  .back-link{font-size:12.5px;font-weight:600;color:var(--clay-dark);text-decoration:none;background:var(--clay-bg);padding:7px 13px;border-radius:20px;white-space:nowrap;border:1px solid var(--line);}
+  .back-link:hover{background:var(--clay);color:#fff;}
+  .dash-title{display:flex;flex-direction:column;line-height:1.15;margin-right:auto;}
+  .dash-title b{font-size:19px;color:var(--clay-dark);}
+  .dash-title span{font-size:11px;color:var(--muted);}
+  .live-chip{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--verified-dark);background:var(--verified-bg);padding:5px 11px;border-radius:20px;white-space:nowrap;}
+  .asof{font-size:11px;color:var(--muted);white-space:nowrap;}
+
+  main{padding-bottom:60px;}
+  .section{padding:34px 0;}
+  .section-head{margin-bottom:16px;}
+  .section-head h2{font-size:20px;margin:0 0 4px;}
+  .section-head p{margin:0;font-size:13px;color:var(--muted);max-width:640px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-sm);}
+
+  /* identity + brand kit */
+  .id-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;}
+  .id-card{padding:26px 28px;}
+  .id-card h1{font-size:30px;margin:0 0 2px;color:var(--clay-dark);}
+  .id-slogan{font-size:14.5px;font-style:italic;color:var(--muted);margin:0 0 16px;}
+  .id-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .pill{font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;background:var(--clay-bg);color:var(--clay-dark);}
+  .pill.status{background:var(--amber-bg);color:#7a5b1e;}
+  .id-card dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0;font-size:13px;}
+  .id-card dt{color:var(--muted);}
+  .id-card dd{margin:0;font-weight:600;}
+  .id-card p.mission{font-size:13.5px;line-height:1.6;color:var(--ink);border-top:1px solid var(--line);margin-top:18px;padding-top:16px;}
+
+  .kit-card{padding:26px 28px;}
+  .kit-card h3{font-size:14px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
+  .swatch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+  .swatch{border-radius:10px;overflow:hidden;border:1px solid var(--line);}
+  .swatch-color{height:44px;}
+  .swatch-label{padding:6px 8px;background:#fff;}
+  .swatch-label b{display:block;font-size:10.5px;}
+  .swatch-label span{display:block;font-size:9.5px;color:var(--muted);font-family:monospace;}
+  .type-sample{border-top:1px solid var(--line);padding-top:16px;margin-bottom:16px;}
+  .type-sample .h-sample{font-size:22px;color:var(--clay-dark);margin:0 0 2px;}
+  .type-sample .h-note{font-size:10.5px;color:var(--muted);margin:0 0 10px;}
+  .type-sample .b-sample{font-size:13.5px;margin:0 0 2px;}
+  .type-sample .b-note{font-size:10.5px;color:var(--muted);}
+  .voice-list{margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:var(--ink);}
+
+  /* KPI strip */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .kpi-card{padding:18px 20px;}
+  .kpi-card span{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;}
+  .kpi-card b{display:block;font-size:25px;font-family:Georgia,serif;color:var(--clay-dark);}
+  .kpi-card .delta{font-size:11px;font-weight:600;margin-top:4px;}
+  .delta.up{color:var(--verified-dark);}
+  .delta.down{color:var(--red);}
+
+  /* charts */
+  .chart-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px;}
+  .chart-grid.thirds{grid-template-columns:repeat(3,1fr);}
+  .chart-card{padding:20px 22px;}
+  .chart-card h4{font-size:13.5px;margin:0 0 2px;}
+  .chart-card .sub{font-size:11px;color:var(--muted);margin:0 0 14px;}
+  .chart-card canvas{max-height:230px;}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:0 14px 10px;border-bottom:1px solid var(--line);}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);}
+  tr:last-child td{border-bottom:none;}
+  td.num, th.num{text-align:right;}
+  .rank{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--clay-bg);color:var(--clay-dark);font-size:11px;font-weight:700;}
+  .mini-stars{color:var(--amber);font-size:12px;letter-spacing:1px;}
+  .table-card{padding:6px 8px 12px;}
+  .tables-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;}
+
+  /* sentiment */
+  .sent-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:16px;}
+  .sent-bars{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .sent-row{display:grid;grid-template-columns:70px 1fr 40px;align-items:center;gap:10px;font-size:12px;}
+  .sent-track{height:9px;border-radius:6px;background:var(--clay-bg);overflow:hidden;}
+  .sent-fill{height:100%;border-radius:6px;background:var(--verified);}
+  .quote-list{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
+  .quote-item{border-left:3px solid var(--clay);padding:2px 0 2px 14px;}
+  .quote-item p{margin:0 0 4px;font-size:13px;font-style:italic;line-height:1.5;}
+  .quote-item span{font-size:11px;color:var(--muted);}
+
+  .disclaimer{background:var(--amber-bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .disclaimer .container{padding:22px 24px;font-size:12.5px;color:#6b5424;line-height:1.6;}
+  .disclaimer b{color:#4d3c17;}
+  footer.dash{padding:26px 0;}
+  footer.dash .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11.5px;color:var(--muted);}
+  footer.dash a{color:var(--clay-dark);text-decoration:none;}
+  footer.dash a:hover{text-decoration:underline;}
+
+  @media (max-width:900px){
+    .id-grid, .chart-grid, .chart-grid.thirds, .tables-grid, .sent-grid{grid-template-columns:1fr;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .swatch-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @media (max-width:520px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .swatch-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header class="dash">
+  <div class="container dash-bar">
+    <a class="back-link" href="index.html">← Back to site</a>
+    <div class="dash-title"><b class="serif">Provenmade</b><span>Business Dashboard</span></div>
+    <span class="live-chip">Prototype data</span>
+    <span class="asof" id="asOf"></span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Business identity + brand kit ===== -->
+  <section class="section container">
+    <div class="section-head">
+      <h2 class="serif">Business at a glance</h2>
+      <p>Who Provenmade is, what it sells, and the visual system behind it — pulled together in one place for quick reference.</p>
+    </div>
+    <div class="id-grid">
+      <div class="card id-card">
+        <h1 class="serif">Provenmade</h1>
+        <p class="id-slogan">"Every listing, verifiably made."</p>
+        <div class="id-row">
+          <span class="pill">Verified handmade marketplace</span>
+          <span class="pill">Commission-based</span>
+          <span class="pill status">Prototype — pre-launch</span>
+        </div>
+        <dl>
+          <dt>Category</dt><dd>E-commerce / handmade &amp; craft marketplace</dd>
+          <dt>Core mechanism</dt><dd>Per-listing verified process footage + proof score</dd>
+          <dt>Target buyer</dt><dd>Design-conscious shoppers who want provenance, not just aesthetics</dd>
+          <dt>Target seller</dt><dd>Independent makers tired of unverifiable "handmade" claims undercutting them</dd>
+          <dt>Active categories</dt><dd>Jewelry, woodworking, ceramics, leather, textiles, glass, candles &amp; soap</dd>
+          <dt>Revenue model</dt><dd>Take rate on completed sales + optional seller featured placement</dd>
+        </dl>
+        <p class="mission">Provenmade exists because "handmade" became a marketing word instead of a fact. The product bet is narrow on purpose: instead of a seller-level badge anyone can apply for once, every single listing carries its own timestamped, on-device-signed capture of the making process — so buyers are judging evidence, not a claim.</p>
+      </div>
+      <div class="card kit-card">
+        <h3>Brand kit</h3>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#C1673B;"></div><div class="swatch-label"><b>Clay</b><span>#C1673B</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#8f4423;"></div><div class="swatch-label"><b>Clay Dark</b><span>#8f4423</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#2F6B4F;"></div><div class="swatch-label"><b>Verified</b><span>#2F6B4F</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#B98A2E;"></div><div class="swatch-label"><b>Amber</b><span>#B98A2E</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#B3413A;"></div><div class="swatch-label"><b>Alert Red</b><span>#B3413A</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#2B2622;"></div><div class="swatch-label"><b>Ink</b><span>#2B2622</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#FAF6F0;border-bottom:1px solid #E4DDCF;"></div><div class="swatch-label"><b>Background</b><span>#FAF6F0</span></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#F5E6DC;"></div><div class="swatch-label"><b>Clay Tint</b><span>#F5E6DC</span></div></div>
+        </div>
+        <div class="type-sample">
+          <p class="h-sample serif">Every listing, verifiably made.</p>
+          <p class="h-note">Display / headings — Georgia, serif · warm, editorial, a little old-world craft catalog</p>
+          <p class="b-sample">Sellers record 3–6 timestamped checkpoints while they actually make the item.</p>
+          <p class="b-note">Body / UI — system sans-serif · plain, legible, no personality tax on functional text</p>
+        </div>
+        <h3>Voice notes</h3>
+        <ul class="voice-list">
+          <li>Plain-spoken and specific — "3–6 timestamped checkpoints," not "rigorous verification process"</li>
+          <li>Honest about limits — states what verification does <em>not</em> prove, every time it comes up</li>
+          <li>Craft-forward, not corporate — sellers are named people with tools and studios, not "vendors"</li>
+          <li>No manufactured urgency — no countdown timers, no fake scarcity messaging</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KPI strip ===== -->
+  <section class="section container" style="padding-top:0;">
+    <div class="section-head">
+      <h2 class="serif">Key metrics — last 30 days</h2>
+      <p>Simulated analytics for this prototype. Figures update on load and are internally consistent with each other, not with a real ad account or database.</p>
+    </div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+  </section>
+
+  <!-- ===== Traffic + funnel ===== -->
+  <section class="section container" style="padding-top:0;">
+    <div class="chart-grid">
+      <div class="card chart-card">
+        <h4>Site views, last 30 days</h4>
+        <p class="sub">Daily page views across the whole site (simulated)</p>
+        <canvas id="viewsChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h4>Traffic sources</h4>
+        <p class="sub">Share of the 30-day sessions above</p>
+        <canvas id="sourcesChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="card chart-card">
+        <h4>Conversion funnel</h4>
+        <p class="sub">Site visit → product view → cart → checkout → completed order</p>
+        <canvas id="funnelChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h4>Revenue share by category</h4>
+        <p class="sub">Illustrative — weighted by each category's average listing price</p>
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Product & proof analytics ===== -->
+  <section class="section container" style="padding-top:0;">
+    <div class="section-head">
+      <h2 class="serif">Product &amp; proof analytics</h2>
+      <p>These two charts are computed directly from the live product and review data on the site, not simulated.</p>
+    </div>
+    <div class="chart-grid thirds">
+      <div class="card chart-card">
+        <h4>Proof score distribution</h4>
+        <p class="sub">Across all 28 verified listings</p>
+        <canvas id="proofChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h4>Customer rating distribution</h4>
+        <p class="sub">Across all 24 published reviews</p>
+        <canvas id="ratingChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h4>Listings by category</h4>
+        <p class="sub">Even coverage — 4 listings per craft category</p>
+        <canvas id="listingsChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Top products + seller leaderboard ===== -->
+  <section class="section container" style="padding-top:0;">
+    <div class="tables-grid">
+      <div class="card table-card">
+        <div class="section-head" style="padding:16px 14px 4px;"><h2 class="serif" style="font-size:17px;">Top products</h2><p>Illustrative units sold, 30 days</p></div>
+        <table>
+          <thead><tr><th>Product</th><th>Category</th><th class="num">Rating</th><th class="num">Units sold</th></tr></thead>
+          <tbody id="topProductsBody"></tbody>
+        </table>
+      </div>
+      <div class="card table-card">
+        <div class="section-head" style="padding:16px 14px 4px;"><h2 class="serif" style="font-size:17px;">Seller leaderboard</h2><p>Ranked by average proof score</p></div>
+        <table>
+          <thead><tr><th>Maker</th><th class="num">Listings</th><th class="num">Proof score</th></tr></thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Reviews & sentiment ===== -->
+  <section class="section container" style="padding-top:0;">
+    <div class="section-head">
+      <h2 class="serif">Reviews &amp; sentiment</h2>
+      <p>Computed from the 24 published customer reviews live on the site.</p>
+    </div>
+    <div class="card" style="padding:22px 26px;">
+      <div class="sent-grid">
+        <div>
+          <div class="kpi-card" style="padding:0;"><span>Average rating</span><b id="avgRatingBig">—</b></div>
+          <div class="sent-bars" id="sentBars"></div>
+        </div>
+        <div>
+          <h3 style="font-size:13px;margin:0 0 4px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);">What buyers are saying</h3>
+          <div class="quote-list">
+            <div class="quote-item"><p>"Watching the maker skive and hand-stitch the gusset in the verification video made the proof score make total sense to me — you can see exactly why the corners hold their shape."</p><span>— Owen S., Hand-stitched leather market tote</span></div>
+            <div class="quote-item"><p>"No two spots on this mug's glaze are quite alike... My mother-in-law asked where I got it within a week, which is basically the highest compliment I know how to pass along."</p><span>— Naomi F., Stoneware mug set (4pc)</span></div>
+            <div class="quote-item"><p>"The scent is lovely, a soft sandalwood, but my candle arrived partially melted... I reached out to swap it and I'm waiting to hear back."</p><span>— Yuki T., Hand-poured soy jar candle (2★ — shipping issue, not the maker)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="disclaimer">
+  <div class="container">
+    <b>Reality check:</b> Provenmade is a prototype concept built to explore this business idea — it is not a live, operating business. The site views, traffic sources, funnel, revenue, units-sold, and sales figures on this page are simulated for illustration and are not real analytics data. The proof score, rating distribution, review counts, and seller listing counts are computed directly from this prototype's own product and review data, so those numbers are internally accurate to the demo, even though the underlying business is not real. (this is an experiment)
+  </div>
+</div>
+
+<footer class="dash">
+  <div class="container">
+    <span>© 2026 Provenmade — a prototype concept, not a live business.</span>
+    <span><a href="project-docs.html">Project documentation</a> · <a href="https://github.com/ethangramly1-svg/Business-model-canvas-DEMO-" target="_blank" rel="noopener">GitHub repo</a> · <a href="index.html">Back to site</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- real product / review data, mirrored from index.html so the two computed charts are accurate ---- */
+  var PRODUCTS = [
+    {name:'Hand-forged copper cuff', category:'Jewelry', price:210, score:5},
+    {name:'Silver stacking rings (set of 3)', category:'Jewelry', price:132, score:5},
+    {name:'Hammered brass hoop earrings', category:'Jewelry', price:86, score:4},
+    {name:'Hammered copper drop earrings', category:'Jewelry', price:68, score:4},
+    {name:'Walnut serving board', category:'Woodworking', price:88, score:5},
+    {name:'Live-edge oak shelf', category:'Woodworking', price:145, score:4},
+    {name:'Hand-turned maple bowl', category:'Woodworking', price:76, score:5},
+    {name:'Hand-carved serving spoon set', category:'Woodworking', price:78, score:5},
+    {name:'Stoneware mug set (4pc)', category:'Ceramics', price:54, score:4},
+    {name:'Wheel-thrown vase', category:'Ceramics', price:68, score:5},
+    {name:'Speckled ceramic planter', category:'Ceramics', price:42, score:3},
+    {name:'Wheel-thrown stoneware teapot', category:'Ceramics', price:118, score:4},
+    {name:'Full-grain leather satchel', category:'Leather', price:245, score:5},
+    {name:'Hand-stitched bifold wallet', category:'Leather', price:62, score:4},
+    {name:'Vegetable-tanned leather belt', category:'Leather', price:88, score:4},
+    {name:'Hand-stitched leather market tote', category:'Leather', price:210, score:5},
+    {name:'Hand-woven wool throw blanket', category:'Textiles', price:165, score:5},
+    {name:'Woven fiber wall hanging', category:'Textiles', price:92, score:4},
+    {name:'Handwoven merino wool scarf', category:'Textiles', price:74, score:4},
+    {name:'Hand-woven cotton table runner', category:'Textiles', price:54, score:3},
+    {name:'Handblown glass tumbler set', category:'Glasswork', price:92, score:4},
+    {name:'Handblown glass ornament', category:'Glasswork', price:36, score:3},
+    {name:'Handblown glass pitcher', category:'Glasswork', price:155, score:5},
+    {name:'Solid glass paperweight', category:'Glasswork', price:58, score:4},
+    {name:'Hand-dipped beeswax taper candles', category:'Candles & soap', price:32, score:3},
+    {name:'Hand-poured soy jar candle', category:'Candles & soap', price:34, score:3},
+    {name:'Cold-process soap bar trio', category:'Candles & soap', price:30, score:4},
+    {name:'Oatmeal & honey bath soak', category:'Candles & soap', price:29, score:3}
+  ];
+  var RATINGS = [5,5,4,3,5,5,5,4,5,5,4,5,5,4,5,5,5,3,5,5,4,5,5,2]; // the 24 published review ratings
+
+  var SELLERS = [
+    {name:'Tomás Vidal', craft:'Woodworking — turning', proof:97, listings:2},
+    {name:'Elena Marsh', craft:'Jewelry — metalwork', proof:96, listings:3},
+    {name:'Priya Nair', craft:'Ceramics', proof:94, listings:3},
+    {name:'Mira Solheim', craft:'Textiles & weaving', proof:94, listings:4},
+    {name:'Marcus Reyes', craft:'Woodworking', proof:93, listings:2},
+    {name:'Nadia Okafor', craft:'Jewelry — metalwork', proof:91, listings:1},
+    {name:'Otis Reyes', craft:'Leather goods', proof:91, listings:4},
+    {name:'Finn Okafor', craft:'Glasswork', proof:89, listings:4},
+    {name:'Junko Ito', craft:'Ceramics', proof:88, listings:1},
+    {name:'Wren Castillo', craft:'Candles & soap', proof:87, listings:4}
+  ];
+
+  var TOP_PRODUCTS = [
+    {name:'Stoneware mug set (4pc)', category:'Ceramics', rating:5.0, units:265},
+    {name:'Walnut serving board', category:'Woodworking', rating:4.5, units:210},
+    {name:'Hand-stitched bifold wallet', category:'Leather', rating:5.0, units:188},
+    {name:'Hand-forged copper cuff', category:'Jewelry', rating:5.0, units:96},
+    {name:'Handblown glass pitcher', category:'Glasswork', rating:4.5, units:74},
+    {name:'Live-edge oak shelf', category:'Woodworking', rating:5.0, units:61}
+  ];
+
+  var CAT_COLORS = {
+    'Jewelry':'#C1673B','Woodworking':'#8f4423','Ceramics':'#B98A2E','Leather':'#2F6B4F',
+    'Textiles':'#6b6357','Glasswork':'#4a7fb5','Candles & soap':'#B3413A'
+  };
+  function starStr(n){ var r = Math.round(n); var s=''; for(var i=1;i<=5;i++){ s += (i<=r?'★':'☆'); } return s; }
+
+  /* ---- date stamp ---- */
+  var today = new Date('2026-08-19T12:00:00');
+  document.getElementById('asOf').textContent = 'Data as of ' + today.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+  /* ---- deterministic 30-day traffic series (no randomness, same every load) ---- */
+  var labels30 = [], viewsData = [];
+  for (var i=29;i>=0;i--){
+    var d = new Date(today); d.setDate(d.getDate()-i);
+    labels30.push((d.getMonth()+1)+'/'+d.getDate());
+    var dow = d.getDay();
+    var weekend = (dow===0||dow===6) ? 0.78 : 1;
+    var trend = 1150 + (29-i)*23;
+    var wave = Math.round(130*Math.sin((29-i)/4.2));
+    viewsData.push(Math.max(300, Math.round((trend+wave)*weekend)));
+  }
+  var totalViews = viewsData.reduce(function(a,b){return a+b;},0);
+  var uniqueVisitors = Math.round(totalViews*0.407);
+
+  /* ---- funnel (visits -> product views -> cart -> checkout -> order), conversion derived from it ---- */
+  var funnel = [
+    {label:'Site visits', value: totalViews},
+    {label:'Product views', value: Math.round(totalViews*0.444)},
+    {label:'Added to cart', value: Math.round(totalViews*0.444*0.194)},
+    {label:'Checkout started', value: Math.round(totalViews*0.444*0.194*0.487)},
+    {label:'Order completed', value: Math.round(totalViews*0.444*0.194*0.487*0.742)}
+  ];
+  var orders = funnel[4].value;
+  var conversionRate = (orders/totalViews*100);
+  var avgOrderValue = 128;
+  var revenue = Math.round(orders*avgOrderValue);
+
+  /* ---- KPI strip ---- */
+  var avgProof = PRODUCTS.reduce(function(s,p){return s+p.score;},0) / PRODUCTS.length / 5 * 100;
+  var avgRatingVal = RATINGS.reduce(function(a,b){return a+b;},0) / RATINGS.length;
+  var kpis = [
+    {label:'Site views (30d)', value: totalViews.toLocaleString(), delta:'▲ 14% vs prior 30d', up:true},
+    {label:'Unique visitors (30d)', value: uniqueVisitors.toLocaleString(), delta:'▲ 11% vs prior 30d', up:true},
+    {label:'Conversion rate', value: conversionRate.toFixed(1)+'%', delta:'▲ 0.3pt vs prior 30d', up:true},
+    {label:'Simulated revenue (30d)', value: '$'+revenue.toLocaleString(), delta:'▲ 18% vs prior 30d', up:true},
+    {label:'Verified listings', value: PRODUCTS.length, delta:'Live catalog count', up:true},
+    {label:'Active sellers', value: SELLERS.length, delta:'Across 7 craft categories', up:true},
+    {label:'Avg. proof score', value: Math.round(avgProof)+'%', delta:'Computed from live listings', up:true},
+    {label:'Avg. customer rating', value: avgRatingVal.toFixed(1)+' / 5', delta: RATINGS.length+' published reviews', up:true}
+  ];
+  var kpiGrid = document.getElementById('kpiGrid');
+  kpis.forEach(function(k){
+    var el = document.createElement('div');
+    el.className = 'card kpi-card';
+    el.innerHTML = '<span>'+k.label+'</span><b>'+k.value+'</b><div class="delta '+(k.up?'up':'down')+'">'+k.delta+'</div>';
+    kpiGrid.appendChild(el);
+  });
+
+  var CLAY = '#C1673B', CLAY_DARK='#8f4423', VERIFIED='#2F6B4F', AMBER='#B98A2E', RED='#B3413A', MUTED='#6b6357';
+  Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#6b6357';
+
+  /* ---- Site views line chart ---- */
+  new Chart(document.getElementById('viewsChart'), {
+    type:'line',
+    data:{ labels:labels30, datasets:[{ data:viewsData, borderColor:CLAY, backgroundColor:'rgba(193,103,59,.12)', fill:true, tension:.35, pointRadius:0, borderWidth:2 }]},
+    options:{ plugins:{legend:{display:false}}, scales:{ x:{ ticks:{ maxTicksLimit:8 }, grid:{display:false} }, y:{ grid:{color:'#E4DDCF'}, beginAtZero:true } }, maintainAspectRatio:false }
+  });
+
+  /* ---- Traffic sources doughnut ---- */
+  new Chart(document.getElementById('sourcesChart'), {
+    type:'doughnut',
+    data:{ labels:['Organic search','Instagram','Direct','Pinterest','Referral sites','Email'],
+      datasets:[{ data:[34,22,18,12,9,5], backgroundColor:[CLAY,CLAY_DARK,AMBER,VERIFIED,'#4a7fb5',MUTED], borderWidth:2, borderColor:'#fff' }] },
+    options:{ plugins:{legend:{position:'right', labels:{boxWidth:10,padding:10}}}, maintainAspectRatio:false }
+  });
+
+  /* ---- Funnel bar ---- */
+  new Chart(document.getElementById('funnelChart'), {
+    type:'bar',
+    data:{ labels: funnel.map(function(f){return f.label;}), datasets:[{ data: funnel.map(function(f){return f.value;}), backgroundColor:CLAY, borderRadius:6 }] },
+    options:{ indexAxis:'y', plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){ return ctx.parsed.x.toLocaleString() + ' (' + (ctx.parsed.x/totalViews*100).toFixed(1) + '% of visits)'; }}}}, scales:{ x:{ grid:{color:'#E4DDCF'} }, y:{ grid:{display:false} } }, maintainAspectRatio:false }
+  });
+
+  /* ---- Category revenue share (illustrative, price-weighted) ---- */
+  new Chart(document.getElementById('categoryChart'), {
+    type:'doughnut',
+    data:{ labels:['Leather','Jewelry','Woodworking','Textiles','Glasswork','Ceramics','Candles & soap'],
+      datasets:[{ data:[23,18,15,15,13,11,5], backgroundColor:['Leather','Jewelry','Woodworking','Textiles','Glasswork','Ceramics','Candles & soap'].map(function(c){return CAT_COLORS[c];}), borderWidth:2, borderColor:'#fff' }] },
+    options:{ plugins:{legend:{position:'right', labels:{boxWidth:10,padding:8,font:{size:10.5}}}}, maintainAspectRatio:false }
+  });
+
+  /* ---- Proof score distribution (real, computed) ---- */
+  var proofDist = [0,0,0,0,0];
+  PRODUCTS.forEach(function(p){ proofDist[p.score-1]++; });
+  new Chart(document.getElementById('proofChart'), {
+    type:'bar',
+    data:{ labels:['1','2','3','4','5'], datasets:[{ data:proofDist, backgroundColor:VERIFIED, borderRadius:6 }] },
+    options:{ plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, grid:{color:'#E4DDCF'}, ticks:{stepSize:2} }, x:{ grid:{display:false} } }, maintainAspectRatio:false }
+  });
+
+  /* ---- Rating distribution (real, computed) ---- */
+  var ratingDist = [0,0,0,0,0];
+  RATINGS.forEach(function(r){ ratingDist[r-1]++; });
+  new Chart(document.getElementById('ratingChart'), {
+    type:'bar',
+    data:{ labels:['1★','2★','3★','4★','5★'], datasets:[{ data:ratingDist, backgroundColor:AMBER, borderRadius:6 }] },
+    options:{ plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, grid:{color:'#E4DDCF'}, ticks:{stepSize:4} }, x:{ grid:{display:false} } }, maintainAspectRatio:false }
+  });
+
+  /* ---- Listings by category (real, computed) ---- */
+  var catCounts = {};
+  PRODUCTS.forEach(function(p){ catCounts[p.category] = (catCounts[p.category]||0)+1; });
+  var catLabels = Object.keys(catCounts);
+  new Chart(document.getElementById('listingsChart'), {
+    type:'bar',
+    data:{ labels:catLabels, datasets:[{ data: catLabels.map(function(c){return catCounts[c];}), backgroundColor: catLabels.map(function(c){return CAT_COLORS[c];}), borderRadius:6 }] },
+    options:{ plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, grid:{color:'#E4DDCF'}, ticks:{stepSize:1} }, x:{ grid:{display:false}, ticks:{font:{size:9.5}} } }, maintainAspectRatio:false }
+  });
+
+  /* ---- Top products table ---- */
+  var tp = document.getElementById('topProductsBody');
+  TOP_PRODUCTS.forEach(function(p){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>'+p.name+'</td><td>'+p.category+'</td><td class="num"><span class="mini-stars">'+starStr(p.rating)+'</span> '+p.rating.toFixed(1)+'</td><td class="num">'+p.units+'</td>';
+    tp.appendChild(tr);
+  });
+
+  /* ---- Seller leaderboard table ---- */
+  var lb = document.getElementById('leaderboardBody');
+  SELLERS.slice().sort(function(a,b){return b.proof-a.proof;}).forEach(function(s, idx){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><span class="rank">'+(idx+1)+'</span> &nbsp;'+s.name+'<br><span style="font-size:11px;color:var(--muted);">'+s.craft+'</span></td><td class="num">'+s.listings+'</td><td class="num">'+s.proof+'%</td>';
+    lb.appendChild(tr);
+  });
+
+  /* ---- Sentiment ---- */
+  document.getElementById('avgRatingBig').textContent = avgRatingVal.toFixed(1)+' / 5';
+  var sentiment = [
+    {label:'Positive', pct: Math.round((ratingDist[3]+ratingDist[4])/RATINGS.length*100)},
+    {label:'Neutral', pct: Math.round(ratingDist[2]/RATINGS.length*100)},
+    {label:'Negative', pct: Math.round((ratingDist[0]+ratingDist[1])/RATINGS.length*100)}
+  ];
+  var sb = document.getElementById('sentBars');
+  sentiment.forEach(function(s){
+    var row = document.createElement('div');
+    row.className = 'sent-row';
+    row.innerHTML = '<span>'+s.label+'</span><div class="sent-track"><div class="sent-fill" style="width:'+s.pct+'%;"></div></div><span>'+s.pct+'%</span>';
+    sb.appendChild(row);
+  });
+
+})();
+</script>
+</body>
+</html>
