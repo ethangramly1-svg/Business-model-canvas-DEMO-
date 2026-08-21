@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Provenmade — every listing, verifiably made</title>
 <meta name="description" content="Provenmade is a marketplace where every handmade listing carries verified, timestamped process footage — proof it was actually made by hand, not just a claim.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
   :root{
     --bg:#FAF6F0; --ink:#2B2622; --muted:#6b6357; --line:#E4DDCF; --card:#FFFFFF;
@@ -37,7 +38,9 @@
   header.site{position:sticky;top:0;z-index:30;background:rgba(250,246,240,.92);backdrop-filter:blur(6px);border-bottom:1px solid transparent;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);}
   header.site.scrolled{border-color:var(--line);box-shadow:var(--shadow-sm);}
   .site-bar{display:flex;align-items:center;gap:22px;padding:14px 0;}
-  .brand{display:flex;flex-direction:column;line-height:1.15;text-decoration:none;}
+  .brand{display:flex;align-items:center;gap:9px;line-height:1.15;text-decoration:none;}
+  .brand-icon{width:30px;height:30px;flex-shrink:0;}
+  .brand-text{display:flex;flex-direction:column;}
   .brand b{font-size:20px;color:var(--clay-dark);}
   .brand span{font-size:10.5px;color:var(--muted);}
   .main-nav{display:flex;gap:6px;margin-left:8px;}
@@ -416,8 +419,18 @@
   <div class="container site-bar">
     <a class="dash-link" href="dashboard.html">View Dashboard</a>
     <a class="brand" href="#/">
-      <b class="serif">Provenmade</b>
-      <span>Every listing, verifiably made.</span>
+      <svg class="brand-icon" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#2B2622" stroke-width="3"/>
+        <circle cx="60" cy="60" r="44" fill="none" stroke="#2B2622" stroke-width="1.2"/>
+        <line x1="60" y1="16" x2="60" y2="8" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="98" y1="82" x2="105" y2="86" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="22" y1="82" x2="15" y2="86" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <path d="M 46 86 L 46 34 L 68 34 A 18 18 0 0 1 68 70 L 46 70" fill="none" stroke="#2B2622" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">
+        <b class="serif">Provenmade</b>
+        <span>Every listing, verifiably made.</span>
+      </span>
     </a>
     <nav class="main-nav" id="mainNav">
       <a href="#/shop" data-route="shop">Shop</a>
