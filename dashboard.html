@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Provenmade — Business Dashboard</title>
 <meta name="description" content="Internal business dashboard for Provenmade — brand kit, business identity, and site &amp; product analytics.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   :root{
@@ -28,7 +29,9 @@
   .dash-bar{display:flex;align-items:center;gap:16px;padding:16px 0;flex-wrap:wrap;}
   .back-link{font-size:12.5px;font-weight:600;color:var(--clay-dark);text-decoration:none;background:var(--clay-bg);padding:7px 13px;border-radius:20px;white-space:nowrap;border:1px solid var(--line);}
   .back-link:hover{background:var(--clay);color:#fff;}
-  .dash-title{display:flex;flex-direction:column;line-height:1.15;margin-right:auto;}
+  .dash-title{display:flex;align-items:center;gap:8px;line-height:1.15;margin-right:auto;}
+  .dash-title .brand-icon{width:26px;height:26px;flex-shrink:0;}
+  .dash-title .dash-title-text{display:flex;flex-direction:column;line-height:1.15;}
   .dash-title b{font-size:19px;color:var(--clay-dark);}
   .dash-title span{font-size:11px;color:var(--muted);}
   .live-chip{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--verified-dark);background:var(--verified-bg);padding:5px 11px;border-radius:20px;white-space:nowrap;}
@@ -132,7 +135,17 @@
 <header class="dash">
   <div class="container dash-bar">
     <a class="back-link" href="index.html">← Back to site</a>
-    <div class="dash-title"><b class="serif">Provenmade</b><span>Business Dashboard</span></div>
+    <div class="dash-title">
+      <svg class="brand-icon" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#2B2622" stroke-width="3"/>
+        <circle cx="60" cy="60" r="44" fill="none" stroke="#2B2622" stroke-width="1.2"/>
+        <line x1="60" y1="16" x2="60" y2="8" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="98" y1="82" x2="105" y2="86" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="22" y1="82" x2="15" y2="86" stroke="#C1673B" stroke-width="4" stroke-linecap="round"/>
+        <path d="M 46 86 L 46 34 L 68 34 A 18 18 0 0 1 68 70 L 46 70" fill="none" stroke="#2B2622" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="dash-title-text"><b class="serif">Provenmade</b><span>Business Dashboard</span></span>
+    </div>
     <span class="live-chip">Prototype data</span>
     <span class="asof" id="asOf"></span>
   </div>
