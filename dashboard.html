@@ -304,7 +304,7 @@
 
 <div class="disclaimer">
   <div class="container">
-    <b>Reality check:</b> Provenmade is a prototype concept built to explore this business idea — it is not a live, operating business. The site views, traffic sources, funnel, revenue, units-sold, and sales figures on this page are simulated for illustration and are not real analytics data. The proof score, rating distribution, review counts, and seller listing counts are computed directly from this prototype's own product and review data, so those numbers are internally accurate to the demo, even though the underlying business is not real. (this is an experiment)
+    <b>Reality check:</b> Provenmade is a prototype concept built to explore this business idea — it is not a live, operating business. The site views, traffic sources, funnel, revenue, units-sold, and sales figures on this page are simulated for illustration and are not real analytics data. So are the valuation, marketplace rank, and employee count — those exist purely because this is an experiment and we let ourselves have some fun with the numbers. The proof score, rating distribution, review counts, and seller listing counts are computed directly from this prototype's own product and review data, so those numbers are internally accurate to the demo, even though the underlying business is not real. (this is an experiment)
   </div>
 </div>
 
@@ -391,7 +391,7 @@
     labels30.push((d.getMonth()+1)+'/'+d.getDate());
     var dow = d.getDay();
     var weekend = (dow===0||dow===6) ? 0.78 : 1;
-    var trend = 1150 + (29-i)*23;
+    var trend = 285000000 + (29-i)*1200000;
     var wave = Math.round(130*Math.sin((29-i)/4.2));
     viewsData.push(Math.max(300, Math.round((trend+wave)*weekend)));
   }
@@ -408,17 +408,28 @@
   ];
   var orders = funnel[4].value;
   var conversionRate = (orders/totalViews*100);
-  var avgOrderValue = 128;
+  var avgOrderValue = 312;
   var revenue = Math.round(orders*avgOrderValue);
+  var valuation = revenue*40;
 
   /* ---- KPI strip ---- */
+  function formatBig(n){
+    if (n >= 1e12) return (n/1e12).toFixed(1)+'T';
+    if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
+    if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+    return n.toLocaleString();
+  }
   var avgProof = PRODUCTS.reduce(function(s,p){return s+p.score;},0) / PRODUCTS.length / 5 * 100;
   var avgRatingVal = RATINGS.reduce(function(a,b){return a+b;},0) / RATINGS.length;
   var kpis = [
-    {label:'Site views (30d)', value: totalViews.toLocaleString(), delta:'▲ 14% vs prior 30d', up:true},
-    {label:'Unique visitors (30d)', value: uniqueVisitors.toLocaleString(), delta:'▲ 11% vs prior 30d', up:true},
+    {label:'Site views (30d)', value: formatBig(totalViews), delta:'▲ 340,000% vs prior 30d', up:true},
+    {label:'Unique visitors (30d)', value: formatBig(uniqueVisitors), delta:'▲ 298,000% vs prior 30d', up:true},
     {label:'Conversion rate', value: conversionRate.toFixed(1)+'%', delta:'▲ 0.3pt vs prior 30d', up:true},
-    {label:'Simulated revenue (30d)', value: '$'+revenue.toLocaleString(), delta:'▲ 18% vs prior 30d', up:true},
+    {label:'Simulated revenue (30d)', value: '$'+formatBig(revenue), delta:'▲ 512,000% vs prior 30d', up:true},
+    {label:'Estimated valuation', value: '$'+formatBig(valuation), delta:'▲ unverified, ask again later', up:true},
+    {label:'Global marketplace rank', value:'#1', delta:'Self-reported, category of one', up:true},
+    {label:'Employees', value:'1', delta:'Also the founder, also currently making tea', up:true},
+    {label:'Real revenue collected', value:'$0', delta:'Prototype — no live transactions yet', up:false},
     {label:'Verified listings', value: PRODUCTS.length, delta:'Live catalog count', up:true},
     {label:'Active sellers', value: SELLERS.length, delta:'Across 7 craft categories', up:true},
     {label:'Avg. proof score', value: Math.round(avgProof)+'%', delta:'Computed from live listings', up:true},
